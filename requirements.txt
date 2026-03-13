@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+langchain
+langchain-community
+langchain-groq
+sentence-transformers
+faiss-cpu
+rank-bm25
+diskcache
+python-dotenv
+pydantic
+tqdm
+langgraph
