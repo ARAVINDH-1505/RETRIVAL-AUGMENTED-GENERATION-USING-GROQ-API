@@ -11,3 +11,4 @@ python-dotenv
 pydantic
 tqdm
 langgraph
+python-multipart
