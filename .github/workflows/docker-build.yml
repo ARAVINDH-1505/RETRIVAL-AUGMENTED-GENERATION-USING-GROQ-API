@@ -30,4 +30,4 @@ jobs:
       with:
         context: .
         push: true
-        tags: aravindh1505/rag-system:latest
+        tags: aravindh15/rag-system:latest
