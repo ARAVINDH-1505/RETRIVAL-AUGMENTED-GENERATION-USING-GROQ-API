@@ -12,6 +12,7 @@ def rerank(query, documents):
 
     ranked = sorted(
         zip(scores, documents),
+        key=lambda x: x[0],
         reverse=True
     )
 
