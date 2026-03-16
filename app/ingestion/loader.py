@@ -1,29 +1,24 @@
-from langchain_community.document_loaders import (
-    DirectoryLoader,
-    TextLoader,
-    PyPDFLoader
-)
+from langchain_community.document_loaders import PyPDFLoader
+import os
 
 
 def load_documents():
 
-    text_loader = DirectoryLoader(
-        "data/documents",
-        glob="**/*.txt",
-        loader_cls=TextLoader
-    )
+    path = "data/documents"
 
-    pdf_loader = DirectoryLoader(
-        "data/documents",
-        glob="**/*.pdf",
-        loader_cls=PyPDFLoader
-    )
+    documents = []
+    filename = None
 
-    text_docs = text_loader.load()
-    pdf_docs = pdf_loader.load()
+    for file in os.listdir(path):
 
-    documents = text_docs + pdf_docs
+        if file.endswith(".pdf"):
 
-    print(f"Loaded {len(documents)} documents")
+            filename = file
 
-    return documents
+            loader = PyPDFLoader(os.path.join(path, file))
+
+            docs = loader.load()
+
+            documents.extend(docs)
+
+    return documents, filename
