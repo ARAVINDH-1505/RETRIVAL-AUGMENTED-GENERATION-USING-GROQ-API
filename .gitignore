@@ -7,8 +7,7 @@ __pycache__/
 .Python
 env/
 venv/
-app/cache/
-app/logs/
+cache/
 .idea/
 app/data/
 .DS_Store
