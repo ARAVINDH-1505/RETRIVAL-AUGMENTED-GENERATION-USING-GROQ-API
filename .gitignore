@@ -15,3 +15,6 @@ app/data/
 *.sqlite3
 *.db
 *.log
+vector_store/
+*.faiss
+*.pkl
