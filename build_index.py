@@ -5,12 +5,12 @@ from langchain_community.vectorstores import FAISS
 
 docs = load_documents()
 
-chunks = split_documents(docs)
-
-embedding = load_embedding_model()
-
-db = FAISS.from_documents(chunks, embedding)
-
-db.save_local("vector_store")
-
-print("Vector store created successfully")
+if not docs:
+    print("No documents found to index.")
+else:
+    chunks = split_documents(docs)
+    embedding = load_embedding_model()
+    
+    db = FAISS.from_documents(chunks, embedding)
+    db.save_local("vector_store")
+    print(f"Vector store created successfully with {len(chunks)} chunks.")
