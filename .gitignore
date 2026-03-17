@@ -2,3 +2,16 @@
 .env
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+app/cache/
+app/logs/
+.idea/
+app/data/
+.DS_Store
+*.sqlite3
+*.db
+*.log
