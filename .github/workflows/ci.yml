@@ -30,6 +30,6 @@ jobs:
         
     - name: Test with pytest
       env:
-        GROQ_API_KEY: Groq_key # Use GitHub Secrets for actual keys if hitting API
+        GROQ_API_KEY: ${{ secrets.GROQ_KEY}} # Use GitHub Secrets for actual keys if hitting API
       run: |
         pytest tests/ -v
