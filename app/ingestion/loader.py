@@ -1,29 +1,27 @@
-from langchain_community.document_loaders import (
-    DirectoryLoader,
-    TextLoader,
-    PyPDFLoader
-)
-
+from langchain_community.document_loaders import PyPDFLoader
+import os
+import logging
+from app.core.logging import logger
 
 def load_documents():
+    path = "data/documents"
+    
+    if not os.path.exists(path):
+        logger.warning(f"Directory {path} does not exist. Creating it.")
+        os.makedirs(path, exist_ok=True)
+        return []
 
-    text_loader = DirectoryLoader(
-        "data/documents",
-        glob="**/*.txt",
-        loader_cls=TextLoader
-    )
+    documents = []
 
-    pdf_loader = DirectoryLoader(
-        "data/documents",
-        glob="**/*.pdf",
-        loader_cls=PyPDFLoader
-    )
-
-    text_docs = text_loader.load()
-    pdf_docs = pdf_loader.load()
-
-    documents = text_docs + pdf_docs
-
-    print(f"Loaded {len(documents)} documents")
+    for file in os.listdir(path):
+        if file.endswith(".pdf"):
+            file_path = os.path.join(path, file)
+            try:
+                loader = PyPDFLoader(file_path)
+                docs = loader.load()
+                documents.extend(docs)
+                logger.info(f"Successfully loaded {file_path}")
+            except Exception as e:
+                logger.error(f"Error loading {file_path}: {e}")
 
     return documents

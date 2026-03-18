@@ -12,3 +12,6 @@ pydantic
 tqdm
 langgraph
 python-multipart
+pytest
+pytest-asyncio
+httpx
