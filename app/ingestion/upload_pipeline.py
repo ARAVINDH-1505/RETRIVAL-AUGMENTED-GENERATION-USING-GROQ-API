@@ -1,3 +1,4 @@
+import os
 import uuid
 from datetime import datetime
 
@@ -42,19 +43,23 @@ def process_uploaded_document(file_path, filename):
 
     embedding = load_embedding_model()
 
-    db = FAISS.load_local(
-        VECTOR_STORE_PATH,
-        embedding,
-        allow_dangerous_deserialization=True
-    )
-
     for i, chunk in enumerate(chunks):
 
         chunk.metadata["doc_id"] = doc_id
         chunk.metadata["doc_name"] = filename
         chunk.metadata["chunk_id"] = i
 
-    db.add_documents(chunks)
+    index_path = os.path.join(VECTOR_STORE_PATH, "index.faiss")
+    if os.path.exists(index_path):
+        db = FAISS.load_local(
+            VECTOR_STORE_PATH,
+            embedding,
+            allow_dangerous_deserialization=True
+        )
+        db.add_documents(chunks)
+    else:
+        logger.info(f"Vector store not found at {VECTOR_STORE_PATH}, creating a new one.")
+        db = FAISS.from_documents(chunks, embedding)
 
     db.save_local(VECTOR_STORE_PATH)
     vs.db = None
