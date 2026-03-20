@@ -11,8 +11,9 @@ from app.database.db import get_db_connection
 from app.utils.hash_utils import generate_file_hash
 import app.retrieval.vector_search as vs
 from app.core.logging import logger
+from app.core.config import settings
 
-VECTOR_STORE_PATH = "vector_store"
+VECTOR_STORE_PATH = settings.VECTOR_DB_PATH
 
 
 def process_uploaded_document(file_path, filename):
