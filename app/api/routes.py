@@ -56,12 +56,19 @@ async def query(request: QueryRequest):
     }
 
 def bg_process_upload(file_path: str, filename: str):
-    process_uploaded_document(file_path, filename)
+    try:
+        process_uploaded_document(file_path, filename)
+    except Exception as e:
+        import traceback
+        from app.core.logging import logger
+        logger.error(f"Background upload failed for {filename}: {str(e)}")
+        logger.error(traceback.format_exc())
 
 @router.post("/upload_document")
 async def upload_document(background_tasks: BackgroundTasks, file: UploadFile = File(...)):
-    os.makedirs("data/uploads", exist_ok=True)
-    file_path = os.path.join("data/uploads", file.filename)
+    from app.core.config import settings
+    os.makedirs(settings.UPLOADS_DIR, exist_ok=True)
+    file_path = os.path.join(settings.UPLOADS_DIR, file.filename)
 
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
