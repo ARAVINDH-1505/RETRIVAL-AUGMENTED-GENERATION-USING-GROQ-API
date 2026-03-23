@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RAG System - Rick & Morty Edition</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dynamic-background"></div>
+    <div class="portal"></div>
+    <div id="spaceship" class="spaceship hidden"></div>
+
+    <div class="bot-container">
+        <div class="bot-head">
+            <div class="eye left"></div>
+            <div class="eye right"></div>
+            <div class="mouth"></div>
+        </div>
+        <div class="bot-body">RAG-Bot</div>
+    </div>
+
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fa-solid fa-brain"></i>
+                <h2>RAG-137</h2>
+            </div>
+            
+            <div class="upload-section glass-panel">
+                <h3><i class="fa-solid fa-cloud-arrow-up"></i> Upload Data</h3>
+                <form id="uploadForm">
+                    <input type="file" id="documentInput" accept=".pdf,.txt,.md,.docx" hidden required>
+                    <label for="documentInput" class="upload-area">
+                        <i class="fa-solid fa-file-circle-plus"></i>
+                        <span>Select Document</span>
+                    </label>
+                    <div id="file-name" class="file-name">No file selected</div>
+                    <button type="submit" class="btn btn-primary" id="uploadBtn">
+                        <span>Upload to Portal</span>
+                        <div class="spinner" id="uploadSpinner" style="display: none;"></div>
+                    </button>
+                </form>
+                <div id="uploadStatus" class="status-message"></div>
+            </div>
+
+            <div class="documents-section glass-panel">
+                <h3><i class="fa-solid fa-folder-open"></i> Indexed Documents</h3>
+                <div class="controls">
+                    <button id="refreshDocsBtn" class="btn btn-secondary btn-sm"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                </div>
+                <ul id="documentList" class="document-list">
+                    <!-- Documents populated via JS -->
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="main-chat">
+            <div class="chat-header glass-panel">
+                <h2>Inter-dimensional Knowledge Base</h2>
+                <div class="status-indicator">
+                    <div class="dot online"></div>
+                    <span>System Online</span>
+                </div>
+            </div>
+
+            <div class="chat-messages glass-panel" id="chatMessages">
+                <div class="message bot-message">
+                    <div class="avatar"><i class="fa-solid fa-robot"></i></div>
+                    <div class="content">
+                        <p>Wubba Lubba Dub Dub! I'm the RAG-137 Bot. Ask me anything about your uploaded documents, mortal.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area glass-panel">
+                <form id="chatForm">
+                    <input type="text" id="queryInput" placeholder="Ask a question..." autocomplete="off" required>
+                    <button type="submit" class="send-btn" id="sendBtn">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>
