@@ -6,7 +6,10 @@ model = None
 def get_reranker():
     global model
     if model is None:
-        model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+        try:
+            model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2", local_files_only=True)
+        except Exception:
+            model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
     return model
 
 async def rerank_async(query, documents):
