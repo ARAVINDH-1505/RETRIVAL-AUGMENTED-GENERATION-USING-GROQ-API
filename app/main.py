@@ -1,8 +1,11 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 from app.api.routes import router
 from app.database.db import create_tables
 from app.core.logging import logger
+import os
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -23,10 +26,10 @@ async def lifespan(app: FastAPI):
     # Teardown: clear the disk cache when the server stops
     logger.info("Server shutting down. Clearing query cache to prevent stale answers...")
     import shutil
-    import os
-    if os.path.exists("./cache"):
+    from app.core.config import settings
+    if os.path.exists(settings.CACHE_DIR):
         try:
-            shutil.rmtree("./cache")
+            shutil.rmtree(settings.CACHE_DIR)
             logger.info("Cache successfully cleared.")
         except Exception as e:
             logger.error(f"Failed to clear cache: {e}")
@@ -38,4 +41,16 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-app.include_router(router)
+# API routes mounted at /api namespace in UI context, but currently they are at root.
+# Let's include router at /api to avoid conflicts.
+app.include_router(router, prefix="/api")
+
+# Ensure static folder exists
+os.makedirs("app/static", exist_ok=True)
+
+# Mount static files
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+@app.get("/")
+async def serve_frontend():
+    return FileResponse("app/static/index.html")
