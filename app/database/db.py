@@ -1,10 +1,12 @@
 import sqlite3
 import os
 from contextlib import contextmanager
+from app.core.config import BASE_DIR
 
 # Ensure data directory exists
-os.makedirs("data", exist_ok=True)
-DB_PATH = "data/documents.db"
+data_dir = os.path.join(BASE_DIR, "data")
+os.makedirs(data_dir, exist_ok=True)
+DB_PATH = os.path.join(data_dir, "documents.db")
 
 @contextmanager
 def get_db_connection():
