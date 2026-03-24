@@ -25,6 +25,9 @@ async def lifespan(app: FastAPI):
     
     # Teardown: clear the disk cache when the server stops
     logger.info("Server shutting down. Clearing query cache to prevent stale answers...")
+    from app.utils.cache import close_cache
+    close_cache()
+    
     import shutil
     from app.core.config import settings
     if os.path.exists(settings.CACHE_DIR):
